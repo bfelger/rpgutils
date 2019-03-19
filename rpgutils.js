@@ -55,24 +55,25 @@ class DicePool {
     }
     
 ////////////////////////////////////////////////////////////////////////////////
-// Thanks to sindilevich for function:                                        //
+// Thanks to sindilevich for this function:                                   //
 // https://stackoverflow.com/a/42321673                                       //
 //----------------------------------------------------------------------------//
-// This work is licensed under a Creative Commons Attribution-ShareAlike 3.0  //
-// Unported license (CC BY-SA 3.0).                                           //
+// This function is licensed under a Creative Commons Attribution-ShareAlike  //
+// 3.0 Unported license (CC BY-SA 3.0).                                       //
 // https://creativecommons.org/licenses/by-sa/3.0/                            //
 ////////////////////////////////////////////////////////////////////////////////
-    static getRandomIntInclusive(min, max) {
-        const randomBuffer = new Uint32Array(1);
-
-        window.crypto.getRandomValues(randomBuffer);
-
-        let randomNumber = randomBuffer[0] / (0xffffffff + 1);
-
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(randomNumber * (max - min + 1)) + min;
-    }
+    static getRandomIntInclusive(min, max) {                                  //
+        const randomBuffer = new Uint32Array(1);                              //
+                                                                              //
+        window.crypto.getRandomValues(randomBuffer);                          //
+                                                                              //
+        let randomNumber = randomBuffer[0] / (0xffffffff + 1);                //
+                                                                              //
+        min = Math.ceil(min);                                                 //
+        max = Math.floor(max);                                                //
+        return Math.floor(randomNumber * (max - min + 1)) + min;              //
+    }                                                                         //
+////////////////////////////////////////////////////////////////////////////////
     
     /**
      * Roll one die, return the result. Does not use a pool, and does not require instantiation.
