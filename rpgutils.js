@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // rpgutils.js                                                                //
 //----------------------------------------------------------------------------//
-// JS library for dynamic generation of web content for TTRPG's               //
 // 2019-03-19 - Brandon Felger                                                //
 //----------------------------------------------------------------------------//
 // This work is licensed under a Creative Commons Attribution 4.0 Internatio- //
@@ -10,7 +9,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * 
+ * @file JS library for dynamic generation of web content for TTRPG's
+ * @author Brandon Felger <bfelger@gmail.com>4
  */
 
 'use strict';
