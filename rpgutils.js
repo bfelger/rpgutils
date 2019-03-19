@@ -124,7 +124,7 @@ class DicePool {
                 result[index++] = DicePool.getRandomIntInclusive(1, sides);
             }
         }
-        return result;4
+        return result;
     }
     
     /**
