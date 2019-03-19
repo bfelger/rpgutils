@@ -10,7 +10,7 @@
 
 /**
  * @file JS library for dynamic generation of web content for TTRPG's
- * @author Brandon Felger <bfelger@gmail.com>4
+ * @author Brandon Felger <bfelger@gmail.com>
  */
 
 'use strict';
