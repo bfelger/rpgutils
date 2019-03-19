@@ -1,0 +1,12 @@
+{
+  "name": "rpgutils",
+  "version": "0.01",
+  "description": "JS library for dynamic generation of web content for TTRPG's",
+  "main": "rpgutils.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bfelger/rpgutils"
+  },
+  "author": "Brandon Felger (bfelger@gmail.com)",
+  "license": "CC BY 4.0"
+}
