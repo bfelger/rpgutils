@@ -564,3 +564,84 @@ class WeightedAssignment extends ScoreAssignment {
         return score;
     }
 }
+
+
+/**
+ * After assigning ability scores, we can validate each stat according to its weight.
+ */
+class WeightedScorePostValidator extends ScoreValidator {
+    constructor(weights) {
+        super();
+        
+        this.weights = weights;
+        this.minPrime = 0;
+        this.maxPrime = 100;
+        this.minSecondary = 0;
+        this.maxSecondary = 100;
+        this.minNormal = 0;
+        this.maxNormal = 100;
+        this.minDump = 0;
+        this.maxDump = 100;
+    }
+    
+    /**
+     * Given a value from Weight, set the acceptable range of ability scores.
+     */
+    setRange(weight, min, max) {
+        switch(weight) {
+            case Weight.PRIME:
+                this.minPrime = min;
+                this.maxPrime = max;
+                return;
+            case Weight.SECONDARY:
+                this.minSecondary = min;
+                this.maxSecondary = max;
+                return;
+            case Weight.NORMAL:
+                this.minNormal = min;
+                this.maxNormal = max;
+                return;
+            case Weight.DUMP:
+                this.minDump = min;
+                this.maxDump = max;
+                return;
+        }
+    }
+    
+    validate(scores) {
+        console.log("WeightedScorePostValidator: " + scores);
+        for (var i = 0; i < 6; i++) {
+            switch(this.weights[i]) {
+                case Weight.PRIME:
+                    if (scores[i] < this.minPrime || scores[i] > this.maxPrime) {
+                        console.log("Prime stat " + scores[i] + " is invalid.");
+                        return false;
+                    }
+                    break;
+                    
+                case Weight.SECONDARY:
+                    if (scores[i] < this.minSecondary || scores[i] > this.maxSecondary) {
+                        console.log("Secondary stat " + scores[i] + " is invalid.");
+                        return false;
+                    }
+                    break;
+                    
+                case Weight.NORMAL:
+                    if (scores[i] < this.minNormal || scores[i] > this.maxNormal) {
+                        console.log("Normal stat " + scores[i] + " is invalid.");
+                        return false;
+                    }
+                    break;
+                    
+                case Weight.DUMP:
+                    if (scores[i] < this.minDump || scores[i] > this.maxDump) {
+                        console.log("Dump stat " + scores[i] + " is invalid.");
+                        return false;
+                    }
+                    break;
+            }
+        }
+        return true;
+    }
+}
+
