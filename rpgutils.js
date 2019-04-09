@@ -100,9 +100,9 @@ class DicePool {
      * @returns {int} The sum total of all dice rolled.
      */
     rollSum() {
-        var total = 0;
-        var i;
-        var sides;
+        let total = 0;
+        let i;
+        let sides;
         for (sides in this.pool) {
             for (i = 0; i < this.pool[sides]; i++) {
                 total += DicePool.getRandomIntInclusive(1, sides);
@@ -116,10 +116,10 @@ class DicePool {
      * @returns {int[]} An array with all dice results.
      */
     rollEach() {
-        var result = [];
-        var index = 0;
-        var i;
-        var sides;
+        let result = [];
+        let index = 0;
+        let i;
+        let sides;
         for (sides in this.pool) {
             for (i = 0; i < this.pool[sides]; i++) {    
                 result[index++] = DicePool.getRandomIntInclusive(1, sides);
@@ -133,11 +133,11 @@ class DicePool {
      * @returns {int[]} An array with all dice results, ordered.
      */
     rollEachDescending() {
-        var result = this.rollEach();
-        var j;
+        let result = this.rollEach();
+        let j;
         for (j = 1; j < result.length; j++) {
-            var key = result[j];
-            var i = j - 1;
+            let key = result[j];
+            let i = j - 1;
             while (i >= 0 && result[i] < key) {
                 result[i + 1] = result[i];
                 i = i - 1;
@@ -161,7 +161,7 @@ class AbilityScores {
          */
         this.rawScores = [];
         
-        for (var i = 0; i++; i < 6)
+        for (let i = 0; i++; i < 6)
             this.rawScores = 10;
     }
     
@@ -170,7 +170,7 @@ class AbilityScores {
     }
     
     static getModDisplay(score) {
-        var mod = AbilityScores.getMod(score);
+        let mod = AbilityScores.getMod(score);
         return (mod > 0 ? "+" : "") + mod;
     }
     
@@ -248,10 +248,10 @@ class Roll3d6Method extends GenerationMethod {
     } 
     
     generateNewScores() {
-        var pool = new DicePool();
+        let pool = new DicePool();
         pool.addDice(3, 6);
         
-        for (var i = 0; i < 6; i++)
+        for (let i = 0; i < 6; i++)
             this.scores[i] = pool.rollSum();
     }
 }
@@ -265,12 +265,12 @@ class Roll4d6Drop1Method extends GenerationMethod {
     } 
     
     generateNewScores() {
-        var pool = new DicePool();
+        let pool = new DicePool();
         pool.addDice(4, 6);
-        for (var i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             // Roll 4, arranging them from greatest to least.
             // Discard the lowest; sum the rest..
-            var dice = pool.rollEachDescending();
+            let dice = pool.rollEachDescending();
             this.scores[i] = dice[0] + dice[1] + dice[3];
         }
     }
@@ -309,8 +309,8 @@ class LowScoreValidator extends ScoreValidator {
     
     validate(scores) {
         console.log("LowScoreValidator: " + scores);
-        var i;
-        var found = 0;
+        let i;
+        let found = 0;
         for (i = 0; i < scores.length; i++) {
             if (scores[i] < this.lowScore) {
                 found++;
@@ -328,7 +328,8 @@ class LowScoreValidator extends ScoreValidator {
  * Same as LowScoreValidator, but in reverse. Rejects based on
  * rolls OVER the threshold.
  */
-class HighScoreValidator extends ScoreValidator {    /**
+class HighScoreValidator extends ScoreValidator {    
+    /**
      * @param {int} highScore The highest number allowed without restriction.
      * @param {int} maxAllowed The most occurances of numbers higher than higScore
      *     allowed before the scores are marked invalid.
@@ -342,8 +343,8 @@ class HighScoreValidator extends ScoreValidator {    /**
     
     validate(scores) {
         console.log("HighScoreValidator: " + scores);
-        var i;
-        var found = 0;
+        let i;
+        let found = 0;
         for (i = 0; i < scores.length; i++) {
             if (scores[i] > this.highScore) {
                 found++;
@@ -354,6 +355,22 @@ class HighScoreValidator extends ScoreValidator {    /**
             }
         }
         return true;
+    }
+}
+
+class LowModTotalValidator extends ScoreValidator {
+    constructor(lowestModTotal) {
+        super();
+        
+        this.lowestModTotal = lowestModTotal;
+    }
+    
+    validate(scores) {
+        let total = 0;
+        for (i = 0; i < scores.length; i++) {
+            total += Math.floor((10 - scores[i]) / 2);
+        }
+        return (total >= this.lowestModTotal);
     }
 }
 
@@ -395,13 +412,13 @@ class ScoreAssignment {
      * Runs all pre-and-post validations.
      */
     generateAndAssign() {
-        var retries = 0;
-        var valid;
+        let retries = 0;
+        let valid;
         
         do {
             console.log("Got new scores. Pre-validating: " + this.method.scores);
             valid = true;
-            for (var i = 0; i < this.preValidators.length; i++) {
+            for (let i = 0; i < this.preValidators.length; i++) {
                 // Didn't use Object.keys().forEach() because we would lose "this"
                 // and not be able to reference this.method.
                 if (!this.preValidators[i].validate(this.method.scores)) {
@@ -417,7 +434,7 @@ class ScoreAssignment {
                 this.assignScores();
                 
                 console.log("Scores assigned. Post-validating: " + this.abilityScores.rawScores);
-                for (var i = 0; i < this.postValidators.length; i++) {
+                for (let i = 0; i < this.postValidators.length; i++) {
                     // Didn't use Object.keys().forEach() because we would lose "this"
                     // and not be able to reference this.method.
                     if (!this.postValidators[i].validate(this.abilityScores.rawScores)) {
@@ -445,7 +462,7 @@ class ScoreAssignment {
      */
     assignScores() {
         console.log("Simple base assignment")
-        for (var i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             this.abilityScores.rawScores[i] = this.method.scores[i];
         }
     }
@@ -492,12 +509,12 @@ class WeightedAssignment extends ScoreAssignment {
      * them in order.
      */
     assignScores() {
-        var primeStats = [];
-        var secondaryStats = [];
-        var normalStats = [];
-        var dumpStats = [];
+        let primeStats = [];
+        let secondaryStats = [];
+        let normalStats = [];
+        let dumpStats = [];
         
-        for (var i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             switch (this.weights[i]) {
                 case Weight.PRIME:
                     primeStats.push(i);
@@ -533,7 +550,7 @@ class WeightedAssignment extends ScoreAssignment {
     assignAbility(stats) {
         while (stats.length > 0) {
             if (stats.length >= 2) {
-                var i = DicePool.rollOne(stats.length) - 1;
+                let i = DicePool.rollOne(stats.length) - 1;
                 this.abilityScores.rawScores[stats[i]] = this.getHighestScore();
                 
                 console.log("Assigned " + this.abilityScores.rawScores[i] + " to " + stats[i]);
@@ -550,15 +567,15 @@ class WeightedAssignment extends ScoreAssignment {
     }
     
     getHighestScore() {
-        var highest = 0;
+        let highest = 0;
         
-        for (var i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             if (this.method.scores[i] > this.method.scores[highest]) {
                 highest = i;
             }
         }
         
-        var score = this.method.scores[highest];
+        let score = this.method.scores[highest];
         this.method.scores[highest] = -100;
         
         return score;
@@ -610,7 +627,7 @@ class WeightedScorePostValidator extends ScoreValidator {
     
     validate(scores) {
         console.log("WeightedScorePostValidator: " + scores);
-        for (var i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             switch(this.weights[i]) {
                 case Weight.PRIME:
                     if (scores[i] < this.minPrime || scores[i] > this.maxPrime) {
