@@ -366,9 +366,8 @@ class LowModTotalValidator extends ScoreValidator {
     validate(scores) {
         let total = 0;
         for (let i = 0; i < scores.length; i++) {
-            total += Math.floor((10 - scores[i]) / 2);
+            total += Math.floor((scores[i] - 10) / 2);
         }
-        console.log("LowModTotalValidator: total = " + total);
         return (total >= this.lowestModTotal);
     }
 }
