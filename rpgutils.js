@@ -309,9 +309,8 @@ class LowScoreValidator extends ScoreValidator {
     
     validate(scores) {
         console.log("LowScoreValidator: " + scores);
-        let i;
         let found = 0;
-        for (i = 0; i < scores.length; i++) {
+        for (let i = 0; i < scores.length; i++) {
             if (scores[i] < this.lowScore) {
                 found++;
                 if (found > this.maxAllowed) {
@@ -343,9 +342,8 @@ class HighScoreValidator extends ScoreValidator {
     
     validate(scores) {
         console.log("HighScoreValidator: " + scores);
-        let i;
         let found = 0;
-        for (i = 0; i < scores.length; i++) {
+        for (let i = 0; i < scores.length; i++) {
             if (scores[i] > this.highScore) {
                 found++;
                 if (found > this.maxAllowed) {
@@ -367,7 +365,7 @@ class LowModTotalValidator extends ScoreValidator {
     
     validate(scores) {
         let total = 0;
-        for (i = 0; i < scores.length; i++) {
+        for (let i = 0; i < scores.length; i++) {
             total += Math.floor((10 - scores[i]) / 2);
         }
         return (total >= this.lowestModTotal);
